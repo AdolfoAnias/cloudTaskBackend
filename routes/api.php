@@ -22,18 +22,20 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
-Route::get('task', [TaskController::class, 'index'])->name('task.index');
-Route::get('task/{id}', [TaskController::class, 'show'])->name('task.show');  
-Route::post('task', [TaskController::class, 'store'])->name('task.store');
-Route::put('task', [TaskController::class, 'update'])->name('task.update');
-Route::delete('task/{id}', [TaskController::class, 'destroy'])->name('task.destroy');          
-Route::patch('task/{id}/toggle', [TaskController::class, 'toggle']);
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::get('task', [TaskController::class, 'index'])->name('task.index');
+    Route::get('task/{id}', [TaskController::class, 'show'])->name('task.show');  
+    Route::post('task', [TaskController::class, 'store'])->name('task.store');
+    Route::put('task', [TaskController::class, 'update'])->name('task.update');
+    Route::delete('task/{id}', [TaskController::class, 'destroy'])->name('task.destroy');          
+    Route::patch('task/{id}/toggle', [TaskController::class, 'toggle']);
 
-Route::get('keyword', [KeywordController::class, 'index'])->name('keyword.index');
-Route::get('keyword/{id}', [KeywordController::class, 'show'])->name('keyword.show');  
-Route::post('keyword', [KeywordController::class, 'store'])->name('keyword.store');
-Route::put('keyword', [KeywordController::class, 'update'])->name('keyword.update');
-Route::delete('keyword/{id}', [KeywordController::class, 'destroy'])->name('keyword.destroy');          
+    Route::get('keyword', [KeywordController::class, 'index'])->name('keyword.index');
+    Route::get('keyword/{id}', [KeywordController::class, 'show'])->name('keyword.show');  
+    Route::post('keyword', [KeywordController::class, 'store'])->name('keyword.store');
+    Route::put('keyword', [KeywordController::class, 'update'])->name('keyword.update');
+    Route::delete('keyword/{id}', [KeywordController::class, 'destroy'])->name('keyword.destroy');          
+});
 
 // Ruta para obtener todas las palabras clave de una tarea
 Route::get('tasks/{task}/keywords', [TaskController::class, 'keywords']);
